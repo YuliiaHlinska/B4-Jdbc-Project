@@ -1,0 +1,65 @@
+/*
+    SUBQUERY
+        A subquery allows us to use multiple SELECT statements,
+        where we basically have a query within a query. (Nested query)
+ */
+
+SELECT * FROM EMPLOYEES;
+
+
+-- Display all information from employees who is making highest salary in company ?
+SELECT * FROM EMPLOYEES
+WHERE SALARY = 24000; -- HARD coded
+
+
+-- Make it DYNAMIC, so it get the highest automatically always
+SELECT MAX(SALARY) FROM EMPLOYEES;
+
+SELECT * FROM EMPLOYEES
+WHERE SALARY = (SELECT MAX(SALARY) FROM EMPLOYEES); -- Dynamically coded
+
+
+-- Display the 2nd highest salary
+SELECT SALARY FROM EMPLOYEES
+ORDER BY SALARY DESC;
+
+SELECT MAX (SALARY) FROM EMPLOYEES;
+
+
+SELECT SALARY FROM EMPLOYEES
+WHERE SALARY < (SELECT MAX (SALARY) FROM EMPLOYEES)
+ORDER BY SALARY DESC;
+
+
+SELECT MAX(SALARY)FROM EMPLOYEES
+WHERE SALARY < (SELECT MAX (SALARY) FROM EMPLOYEES)
+ORDER BY SALARY DESC;
+
+SELECT * FROM EMPLOYEES
+WHERE SALARY = 17000; -- HARD coded
+
+
+SELECT * FROM EMPLOYEES
+WHERE SALARY = (SELECT MAX(SALARY)FROM EMPLOYEES
+                WHERE SALARY < (SELECT MAX (SALARY) FROM EMPLOYEES)); -- Dynamically coded
+
+
+
+-- Display all the employees who are making above the average salary
+SELECT ROUND (AVG(SALARY),2) FROM EMPLOYEES; -- 6461.83
+
+SELECT * FROM EMPLOYEES
+WHERE SALARY > 6461.83; -- HARD Coded
+
+
+SELECT * FROM EMPLOYEES
+WHERE SALARY > (SELECT ROUND (AVG(SALARY),2) FROM EMPLOYEES) -- DYNAMICALLY Coded
+ORDER BY SALARY DESC;
+
+
+-- Display all the employees who are making below the average salary
+SELECT * FROM EMPLOYEES
+WHERE SALARY < (SELECT ROUND (AVG(SALARY),2) FROM EMPLOYEES) -- DYNAMICALLY Coded
+ORDER BY SALARY DESC;
+
+

@@ -1,0 +1,165 @@
+/*
+    DDL
+        - Create
+        - Drop
+        - Truncuate
+        - Alter
+    DML
+        - Select
+        - Update
+        - Insert
+        - Delete
+ */
+
+SELECT * FROM EMPLOYEES;
+
+-- DDL
+CREATE TABLE SCRUMTEAM (
+                           EMP_ID NUMBER PRIMARY KEY,
+                           FIRST_NAME varchar(20) NOT NULL,
+                           JOB_TITLE varchar(30) NOT NULL,
+                           AGE INTEGER,
+                           SALARY DECIMAL
+);
+
+SELECT * FROM SCRUMTEAM;
+
+-- DML
+-- Insert data
+INSERT INTO SCRUMTEAM (EMP_ID, FIRST_NAME, JOB_TITLE, AGE, SALARY)
+VALUES (1, 'Tom', 'DEV', 25, 120.0);
+
+
+INSERT INTO SCRUMTEAM (EMP_ID, FIRST_NAME, JOB_TITLE, AGE, SALARY)
+VALUES ( 3, 'Jerry', 'QA', 24, 125.6);
+
+
+INSERT INTO SCRUMTEAM (EMP_ID, FIRST_NAME, JOB_TITLE, AGE, SALARY)
+VALUES ( 2, 'Winnie', 'PO', 30, 115);
+
+
+INSERT INTO SCRUMTEAM (FIRST_NAME, JOB_TITLE, AGE, SALARY, EMP_ID)
+VALUES (  'Pooh', 'SM', 30, 135, 4);
+
+-- it is also possible to insert data without giving column names
+INSERT INTO SCRUMTEAM
+VALUES (  8, 'Pooh', 'SM', 30, 135);
+
+INSERT INTO SCRUMTEAM
+VALUES (  7, 'James', 'PM', null, null);
+
+-- save all your changes.
+commit;
+-- commit work;
+
+
+
+-- DML
+-- UPDATE
+
+
+-- I want to increase the salary by 5K for everyone
+SELECT SALARY, SALARY+5 FROM SCRUMTEAM;
+
+SELECT * FROM SCRUMTEAM;
+
+UPDATE SCRUMTEAM
+SET SALARY = SALARY+5;
+
+
+UPDATE SCRUMTEAM
+SET SALARY = SALARY+9
+WHERE JOB_TITLE = 'QA';
+
+
+UPDATE SCRUMTEAM
+SET SALARY = SALARY+2
+WHERE age < 30;
+
+SELECT * FROM SCRUMTEAM;
+
+-- Update the FirstName for James to be jack
+UPDATE SCRUMTEAM
+SET FIRST_NAME = 'Jack'
+WHERE EMP_ID = 7;
+
+
+-- DML
+-- DELETE - removes the row based on condition
+DELETE FROM SCRUMTEAM
+WHERE EMP_ID = 8;
+
+SELECT * FROM SCRUMTEAM;
+commit;
+
+
+-- DDL
+-- ALTER
+-- ADD Column
+
+ALTER TABLE SCRUMTEAM
+    ADD SSN NUMBER UNIQUE;
+SELECT * FROM SCRUMTEAM;
+
+UPDATE SCRUMTEAM
+SET SSN = 123456789
+WHERE FIRST_NAME = 'Tom';
+
+
+-- DDL
+-- ALTER
+-- RENAME COLUMN
+
+ALTER TABLE SCRUMTEAM
+    RENAME COLUMN SSN TO SOCIAL_SEC_NUM;
+SELECT * FROM SCRUMTEAM;
+
+SELECT SOCIAL_SEC_NUM as SSN FROM SCRUMTEAM;
+
+
+-- DDL
+-- ALTER
+-- DROP COLUMN
+ALTER TABLE SCRUMTEAM
+    DROP COLUMN SSN;
+
+
+ALTER TABLE SCRUMTEAM
+    DROP COLUMN SOCIAL_SEC_NUM;
+
+SELECT * FROM SCRUMTEAM;
+
+
+
+-- DDL
+-- ALTER
+-- RENAME TABLE NAME
+ALTER TABLE SCRUMTEAM
+    RENAME COLUMN FIRST_NAME TO GIVEN_NAME;
+select * FROM SCRUMTEAM;
+
+ALTER TABLE SCRUMTEAM
+    RENAME TO AGILETEAM;
+
+
+select * FROM SCRUMTEAM;
+select * FROM AGILETEAM;
+
+
+
+-- DDL
+-- TRUNCUATE
+SELECT * FROM AGILETEAM;
+
+TRUNCATE TABLE  AGILETEAM;
+SELECT * FROM AGILETEAM;
+
+-- DDL
+-- DROP
+DROP TABLE AGILETEAM;
+SELECT * FROM AGILETEAM;
+
+commit;
+
+
+

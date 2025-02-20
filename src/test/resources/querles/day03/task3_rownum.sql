@@ -1,0 +1,75 @@
+/*
+    ROWNUM
+        Limits the number of row result displayed in the query.
+        Only works with less than (<) and less then and equals (<=)
+        -- The order: first CUT, then apply DISTINCT, then ORDER BY
+ */
+
+SELECT * FROM EMployees;
+
+
+SELECT * FROM EMployees
+ORDER BY SALARY DESC;
+
+SELECT SALARY FROM EMPLOYEES
+ORDER BY SALARY DESC;
+
+-- Find the first 5 highest salary
+
+-- First, I make sure, I get only the UNIQUE salaries
+-- All rows
+SELECT DISTINCT SALARY FROM EMPLOYEES
+ORDER BY SALARY DESC;
+
+-- first five
+-- BAD PRACTICE - because of the execution order: first CUT, then apply DISTINCT, then ORDER BY
+-- The order: first CUT, then apply DISTINCT, then ORDER BY
+SELECT DISTINCT SALARY FROM EMPLOYEES
+WHERE ROWNUM <= 5
+ORDER BY SALARY DESC;
+
+
+-- FIXED version
+-- The order: first DISTINCT, then ORDER BY, the CUT
+
+SELECT DISTINCT SALARY FROM EMPLOYEES ORDER BY SALARY DESC;
+
+SELECT * FROM (SELECT DISTINCT SALARY FROM EMPLOYEES ORDER BY SALARY DESC)
+WHERE  ROWNUM < 6; --24000.00, 17000.00, 14000.00, 13500.00, 13000.00
+
+
+
+-- Find me all the employees info who is making first 5 highest - 24000, 17000, 14000, 13500, 13000
+SELECT * FROM EMPLOYEES
+WHERE SALARY = 24000 OR SALARY = 17000 OR SALARY = 14000 OR SALARY = 13500 OR SALARY = 13000; -- HARD CODED
+
+
+SELECT * FROM EMPLOYEES
+WHERE SALARY IN (24000, 17000, 14000, 13500, 13000); -- HARD CODED
+
+
+SELECT * FROM EMPLOYEES
+WHERE SALARY IN (SELECT * FROM (SELECT DISTINCT SALARY FROM EMPLOYEES ORDER BY SALARY DESC)
+                 WHERE  ROWNUM < 6); -- DYNAMICALLY CODED
+
+
+-- Display all info for first 10 highest salary
+SELECT DISTINCT SALARY FROM EMPLOYEES
+ORDER BY SALARY DESC ;
+
+SELECT * FROM (SELECT DISTINCT SALARY FROM EMPLOYEES ORDER BY SALARY DESC)
+WHERE ROWNUM <= 10;
+
+
+SELECT * FROM EMPLOYEES
+WHERE SALARY IN (SELECT * FROM (SELECT DISTINCT SALARY FROM EMPLOYEES ORDER BY SALARY DESC)
+                 WHERE ROWNUM <= 10)
+ORDER BY SALARY Desc;
+
+
+-- Display all info from employees who are making first 10 highest salary and who are in the JOB_ID of SA_MAN
+SELECT * FROM EMPLOYEES
+WHERE SALARY IN (SELECT * FROM (SELECT DISTINCT SALARY FROM EMPLOYEES ORDER BY SALARY DESC)
+                 WHERE ROWNUM <= 10)
+  AND JOB_ID = 'SA_MAN';
+
